@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Cucina — Task Manager</title>
+    <!-- External Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Libre+Baskerville:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="Home.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">🍽️</div>
+        <div class="logo-text">
+            <h1>La Cucina</h1>
+            <span>Restaurant Task Manager</span>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="date-badge" id="headerDate"></div>
+        <div class="manager-pill">👨‍🍳 &nbsp;Manager View</div>
+    </div>
+</header>
+
+<div class="main-wrapper">
+    <!-- LEFT PANEL: Assign Task + Staff -->
+    <div>
+        <div class="panel">
+            <div class="panel-header">
+                <span class="icon">📋</span>
+                <h2>Assign New Task</h2>
+            </div>
+            <div class="panel-body">
+                <div class="field-group">
+                    <label>Task Title</label>
+                    <input type="text" id="taskTitle" placeholder="e.g. Polish silverware, Prep mise en place…">
+                </div>
+                <div class="field-group">
+                    <label>Description</label>
+                    <textarea id="taskDesc" placeholder="Add details or special instructions…"></textarea>
+                </div>
+                <div class="field-group">
+                    <label>Assign To</label>
+                    <select id="taskAssignee">
+                        <option value="">— Select staff member —</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Category</label>
+                    <select id="taskCategory">
+                        <option value="Kitchen">🍳 Kitchen</option>
+                        <option value="Front of House">🥂 Front of House</option>
+                        <option value="Bar">🍸 Bar</option>
+                        <option value="Prep">🔪 Prep</option>
+                        <option value="Cleaning">🧹 Cleaning</option>
+                        <option value="Inventory">📦 Inventory</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Due Time</label>
+                    <input type="time" id="taskDue">
+                </div>
+                <div class="field-group">
+                    <label>Priority</label>
+                    <div class="priority-row">
+                        <button class="priority-btn active" data-p="low" onclick="setPriority('low')">🟢 Low</button>
+                        <button class="priority-btn" data-p="medium" onclick="setPriority('medium')">🟡 Medium</button>
+                        <button class="priority-btn" data-p="high" onclick="setPriority('high')">🔴 High</button>
+                    </div>
+                </div>
+                <button class="btn-assign" onclick="assignTask()">✦ Assign Task</button>
+            </div>
+        </div>
+
+        <div class="ornament">✦ ✦ ✦</div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="icon">👥</span>
+                <h2>Kitchen Staff</h2>
+            </div>
+            <div class="panel-body">
+                <div class="staff-list" id="staffList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT: Dashboard -->
+    <div>
+        <div class="board-header">
+            <div>
+                <div class="board-title">Tonight's Service</div>
+                <div class="board-subtitle">Track, assign, and manage every task across the floor</div>
+            </div>
+            <div class="filter-row" id="filterRow">
+                <button class="filter-chip active" data-filter="all" onclick="setFilter('all', this)">All</button>
+                <button class="filter-chip" data-filter="Kitchen" onclick="setFilter('Kitchen', this)">🍳 Kitchen</button>
+                <button class="filter-chip" data-filter="Front of House" onclick="setFilter('Front of House', this)">🥂 FOH</button>
+                <button class="filter-chip" data-filter="Bar" onclick="setFilter('Bar', this)">🍸 Bar</button>
+                <button class="filter-chip" data-filter="Prep" onclick="setFilter('Prep', this)">🔪 Prep</button>
+                <button class="filter-chip" data-filter="Cleaning" onclick="setFilter('Cleaning', this)">🧹 Clean</button>
+                <button class="filter-chip" data-filter="Inventory" onclick="setFilter('Inventory', this)">📦 Inv.</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-num" id="statTotal">0</div>
+                <div class="stat-label">Total Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="statTodo" style="color:var(--muted)">0</div>
+                <div class="stat-label">To Do</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="statProgress" style="color:var(--gold)">0</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="statDone" style="color:var(--sage)">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div>
+                <div class="col-header">
+                    <div class="col-dot dot-todo"></div>
+                    <span class="col-title">To Do</span>
+                    <span class="col-count" id="cnt-todo">0</span>
+                </div>
+                <div class="tasks-col" id="col-todo"></div>
+            </div>
+            <div>
+                <div class="col-header">
+                    <div class="col-dot dot-progress"></div>
+                    <span class="col-title">In Progress</span>
+                    <span class="col-count" id="cnt-progress">0</span>
+                </div>
+                <div class="tasks-col" id="col-progress"></div>
+            </div>
+            <div>
+                <div class="col-header">
+                    <div class="col-dot dot-done"></div>
+                    <span class="col-title">Done</span>
+                    <span class="col-count" id="cnt-done">0</span>
+                </div>
+                <div class="tasks-col" id="col-done"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Link to your JavaScript file -->
+<script src="Home.js"></script>
+</body>
+</html>
