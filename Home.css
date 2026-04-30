@@ -1,0 +1,58 @@
+:root {
+    --cream: #F5EDD8; --espresso: #3B1F0A; --gold: #C8922A;
+    --rust: #C0451A; --ink: #1A1208; --border: rgba(59,31,10,0.15);
+}
+
+body { background: var(--cream); font-family: 'DM Sans', sans-serif; margin: 0; color: var(--ink); }
+
+header { 
+    background: var(--espresso); color: white; padding: 15px 40px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    border-bottom: 3px solid var(--gold); 
+}
+
+.manager-pill { 
+    background: rgba(200,146,42,0.2); border: 1px solid var(--gold); 
+    color: var(--gold); padding: 8px 15px; border-radius: 20px; cursor: pointer; 
+}
+
+.main-wrapper { display: grid; gap: 20px; padding: 30px; transition: 0.3s; }
+.manager-active .main-wrapper { grid-template-columns: 320px 1fr; }
+.staff-only .main-wrapper { grid-template-columns: 1fr; }
+
+/* Modal & Popups */
+.modal-overlay { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; 
+}
+.modal-content { background: white; padding: 30px; border-radius: 8px; width: 350px; text-align: center; }
+textarea { width: 100%; height: 80px; margin: 15px 0; padding: 10px; border: 1px solid var(--border); box-sizing: border-box; }
+
+/* Panels & Tasks */
+.panel { background: white; border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.panel-header { background: var(--espresso); color: white; padding: 12px; font-size: 14px; text-align: center; }
+.panel-body { padding: 20px; }
+
+.columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.task-card { background: white; border: 1px solid var(--border); padding: 15px; margin-bottom: 12px; border-radius: 4px; }
+.task-card[data-p="high"] { border-left: 5px solid var(--rust); }
+.task-card[data-p="medium"] { border-left: 5px solid var(--gold); }
+.task-card[data-p="low"] { border-left: 5px solid var(--sage); }
+
+/* Comment Styling (Manager View Only) */
+.comment-box { 
+    background: #FFF9EB; border: 1px dashed var(--gold); 
+    padding: 10px; margin-top: 10px; font-size: 12px; 
+    font-style: italic; color: var(--espresso); border-radius: 4px;
+}
+
+.btn-assign { background: var(--rust); color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; }
+.btn-check { background: var(--gold); color: white; border: none; padding: 8px; cursor: pointer; font-size: 12px; margin-top: 10px; width: 100%; border-radius: 3px; }
+.btn-secondary { background: #ccc; border: none; padding: 12px; cursor: pointer; border-radius: 4px; }
+
+.field-group { margin-bottom: 15px; }
+label { display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 5px; color: #666; font-weight: bold; }
+input, select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; box-sizing: border-box; }
+
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--espresso); color: var(--gold); padding: 12px 25px; border-radius: 4px; opacity: 0; transition: 0.3s; pointer-events: none; }
+.toast.show { opacity: 1; }
