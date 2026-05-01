@@ -21,13 +21,13 @@
     </div>
     <div class="header-right">
         <div class="date-badge" id="headerDate"></div>
-        <div class="manager-pill">👨‍🍳 &nbsp;Manager View</div>
+        <button class="manager-pill" id="managerToggleBtn" onclick="handleManagerAuth()">👨‍🍳 Enter Manager View</button>
     </div>
 </header>
 
 <div class="main-wrapper">
-    <!-- LEFT PANEL: Assign Task + Staff -->
-    <div>
+    <!-- LEFT PANEL: Assign Task + Staff (Hidden by default) -->
+    <div id="managerControls" style="display: none;">
         <div class="panel">
             <div class="panel-header">
                 <span class="icon">📋</span>
@@ -71,6 +71,7 @@
                         <button class="priority-btn" data-p="high" onclick="setPriority('high')">🔴 High</button>
                     </div>
                 </div>
+                <input type="hidden" id="taskPriority" value="low">
                 <button class="btn-assign" onclick="assignTask()">✦ Assign Task</button>
             </div>
         </div>
@@ -150,6 +151,32 @@
                 </div>
                 <div class="tasks-col" id="col-done"></div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auth Modal -->
+<div class="modal-overlay" id="authModal" style="display: none;">
+    <div class="modal-content">
+        <h2>🔐 Manager Access</h2>
+        <p>Enter access code to unlock manager controls</p>
+        <input type="password" id="managerCodeInput" placeholder="Enter code…" onkeypress="if(event.key==='Enter') verifyCode()">
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <button class="btn-secondary" onclick="closeAuthModal()">Cancel</button>
+            <button class="btn-assign" onclick="verifyCode()" style="flex:1;">Verify</button>
+        </div>
+    </div>
+</div>
+
+<!-- Comment Modal -->
+<div class="modal-overlay" id="commentModal" style="display: none;">
+    <div class="modal-content">
+        <h2>✅ Mark Task Complete</h2>
+        <p>Add a note (optional):</p>
+        <textarea id="workerCommentInput" placeholder="Task completed successfully…"></textarea>
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <button class="btn-secondary" onclick="closeCommentModal()">Cancel</button>
+            <button class="btn-assign" onclick="submitCompletion()" style="flex:1;">Complete Task</button>
         </div>
     </div>
 </div>
