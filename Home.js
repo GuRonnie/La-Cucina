@@ -1,21 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    updateDoc,
-    doc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC6TgdhTb4NMMM7voW8EhqfP6Hxyu1Iwow",
-    authDomain: "la-cucina-3307a.firebaseapp.com",
-    projectId: "la-cucina-3307a"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 const ACCESS_CODE = "Kitchen#Secret!2026";
 let isManager = false;
